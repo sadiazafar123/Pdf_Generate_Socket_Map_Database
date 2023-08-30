@@ -18,7 +18,6 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.example.totopartnetapppracticeapplication.R
 import com.example.totopartnetapppracticeapplication.databinding.ActivityDashboardBinding
-import com.example.totopartnetapppracticeapplication.model.Dummy
 import com.example.totopartnetapppracticeapplication.model.SaveLatLng
 import com.example.totopartnetapppracticeapplication.services.LocationService
 import com.example.totopartnetapppracticeapplication.viewmodel.MyViewModel
@@ -27,6 +26,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import io.reactivex.SingleObserver
+import io.reactivex.disposables.Disposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -42,10 +43,10 @@ class DashboardActivity : AppCompatActivity(){
     private val layoutResID: Int @LayoutRes get() = R.layout.activity_dashboard
     private lateinit var binding:ActivityDashboardBinding
     private lateinit var myBroadcastReceiver: MyBroadcastReceiver
-    private var lat: Double? = 0.0
-    private var lng: Double? = 0.0
-
-
+    private var lat2: Double? = 0.0
+    private var lng2: Double? = 0.0
+    private var distance: Float? = 0.0f
+    val startLocation = Location("point A")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResID)
@@ -63,7 +64,7 @@ class DashboardActivity : AppCompatActivity(){
         //register broadcast receiver
         myBroadcastReceiver= MyBroadcastReceiver()
         val intentFilter2 = IntentFilter(Intent.ACTION_PACKAGE_ADDED)
-        var intentFilter3 = IntentFilter("LocationToast")
+        val intentFilter3 = IntentFilter("LocationToast")
         intentFilter2.addDataScheme("package")
 
         registerReceiver(myBroadcastReceiver,intentFilter2)
@@ -112,10 +113,36 @@ class DashboardActivity : AppCompatActivity(){
             viewModel.deleteAllRecord()
         }
         binding.btnSpecificDel.setOnClickListener {
-//            viewModel.deleteSpecificRecord()
+            viewModel.deleteSpecificRecord()
             distance()
         }
+        binding.btnCalculateDistance.setOnClickListener {
+           // calculateDistance()
+            //observe data using rx java with 3 method implement(onSubscribe,onSuccess,onError)
+            //onError will triggered when there woukd be no entry in db
+            val totalDistanceCompletable =viewModel.calculateTotalDistance()
+            totalDistanceCompletable.subscribe(object : SingleObserver<Int> {
+                override fun onSubscribe(d: Disposable) {
+                    Log.d("DashboardActivity", "on subscribe: $d")
+                    Toast.makeText(this@DashboardActivity, "on subscribe: $d", Toast.LENGTH_SHORT).show()
+                }
+                override fun onSuccess(t: Int) {
+                    Log.d("DashboardActivity", "on success: $t")
+                    Toast.makeText(this@DashboardActivity, "on success: $t", Toast.LENGTH_SHORT).show()
+                }
+                override fun onError(e: Throwable) {
+                    Log.d("DashboardActivity", "Error while reading Sports Data: $e")
+                    Toast.makeText(this@DashboardActivity, "on Error: $e", Toast.LENGTH_SHORT).show()
+                }
+            })
 
+// observe data through livedata
+//            viewModel.calculateTotalDistance().observe(this){
+//                Log.v("total distance","$it")
+//                Toast.makeText(this, "total distance: $it", Toast.LENGTH_SHORT).show()
+//
+//            }
+        }
     }
 
     private fun checkpermission() {
@@ -133,14 +160,10 @@ class DashboardActivity : AppCompatActivity(){
         else{
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 startForegroundService(services)
-
             } else {
                 startService(services)
-
             }
-
         }
-
     }
 
     inner class MyBroadcastReceiver:BroadcastReceiver(){
@@ -151,15 +174,27 @@ class DashboardActivity : AppCompatActivity(){
                 val formatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
                 val formattedTime = currentTime.format(formatter)
                 if (intent?.action == "LocationToast"){
-                    lat = intent.extras?.getDouble("lat",0.0)
-                    lng = intent.extras?.getDouble("lng",0.0)
+                    lat2 = intent.extras?.getDouble("lat",0.0)
+                    lng2 = intent.extras?.getDouble("lng",0.0)
+                    val endLocation = Location("point B")
+                    endLocation.latitude = lat2!!
+                    endLocation.longitude= lng2!!
+                    if (startLocation.latitude == 0.0 /*&& startLocation.longitude == 0.0*/){
+                        distance = 0.0f
+                        startLocation.latitude  = lat2 as Double
+                        startLocation.longitude = lng2 as Double
+                    }else{
+                        distance  = startLocation.distanceTo(endLocation)
+                        startLocation.latitude  = lat2 as Double
+                        startLocation.longitude = lng2 as Double
+                    }
                     if (::mMap.isInitialized){
                         mMap.clear()
-                        mMap.addMarker(MarkerOptions().position(LatLng(lat?:0.0,lng?:0.0)).title("Your current location"))
+                        mMap.addMarker(MarkerOptions().position(LatLng(lat2?:0.0,lng2?:0.0)).title("Your current location"))
                         mMap.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(LatLng(lat?:0.0,lng?:0.0), 15f)
+                            CameraUpdateFactory.newLatLngZoom(LatLng(lat2?:0.0,lng2?:0.0), 15f)
                         )
-                        viewModel.insertLatLng(lat,lng,formattedTime)
+                        viewModel.insertLatLng(lat2,lng2,formattedTime, distance!!)
                     }
                 }
                 if (intent?.action == Intent.ACTION_PACKAGE_ADDED){
@@ -171,10 +206,10 @@ class DashboardActivity : AppCompatActivity(){
                 }
 
             }
-
         }
     }
     fun distance(){
+        //insert dummy data in arraylist
 //        val arraylist: ArrayList<Dummy> = ArrayList()
 //        arraylist.add(Dummy(31.506320794181022, 74.31868384741813))//(31.506320794181022, 74.31868384741813),dist:187m
 //        arraylist.add(Dummy(31.507660851995166, 74.31990693469609))//31.507660851995166, 74.31990693469609
@@ -186,8 +221,7 @@ class DashboardActivity : AppCompatActivity(){
 //        arraylist.add(Dummy(31.504971569867017, 74.3187696782443))//31.504971569867017, 74.3187696782443
 
         viewModel.getWholeRecord().observe(this@DashboardActivity){
-           // val abc= it
-            var arraylist: ArrayList<SaveLatLng> = ArrayList()
+            val arraylist: ArrayList<SaveLatLng>
             arraylist = it as ArrayList<SaveLatLng>
             Log.v("fetch record","$it")
             Toast.makeText(this@DashboardActivity, "List: $it", Toast.LENGTH_SHORT).show()
@@ -206,7 +240,6 @@ class DashboardActivity : AppCompatActivity(){
                 startLocation.longitude = endLocation.longitude
                 Log.v("MyArraylist","calculated distance in meter: $totalDistanceInMeters")
             }
-
         }
         //loop
 //        var totalDistanceInMeters = 0.0
@@ -247,5 +280,17 @@ class DashboardActivity : AppCompatActivity(){
 //        Log.v("distance"," distance in km:$distanceInKm")
 //        Log.v("distance"," distance in miles:$distanceInMiles")
 
+    }
+    fun calculateDistance(){
+        val locationA = Location("point A")
+        locationA.latitude = 31.48983   // Replace with the actual latitude of point A
+        locationA.longitude = 74.29712  // Replace with the actual longitude of point A
+
+        val locationB = Location("point B")
+        locationB.latitude = 31.49107 // Replace with the actual latitude of point B
+        locationB.longitude = 74.29884 // Replace with the actual longitude of point B
+
+        val distance = locationA.distanceTo(locationB)
+        Log.v("calculateDistance"," distance in meter:$distance")
     }
 }

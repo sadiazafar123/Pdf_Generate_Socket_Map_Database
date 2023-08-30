@@ -12,5 +12,6 @@ data class SaveLatLng(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo var lat: Double? = 0.0,
     @ColumnInfo var lng: Double? = 0.0,
-    @ColumnInfo var time: String? = ""
+    @ColumnInfo var time: String? = "",
+    @ColumnInfo val distance: Float? = 0.0f
 ) : Parcelable
