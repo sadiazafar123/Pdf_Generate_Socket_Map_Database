@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Settings TextView Style-->
+    <style name="DrawerTextViewTheme" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">@dimen/textSize18</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:gravity">start|center</item>
+        <item name="android:drawablePadding">@dimen/common_start_padding</item>
+        <item name="android:layout_marginTop">@dimen/common_top_margin</item>
+    </style>
+
+    <style name="TextStyle16SizeRegular" parent="TextAppearanceCustomFont">
+        <item name="android:textSize">@dimen/textSize16</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <!--TextAppearance Style-->
+    <style name="TextAppearanceCustomFont" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+    <style name="TextStyle14SizeRegular" parent="TextAppearanceCustomFont">
+        <item name="android:textSize">@dimen/textSize14</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="TextStyle12SizeRegular" parent="TextAppearanceCustomFont">
+        <item name="android:textSize">@dimen/textSize12</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="DashBoardTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorWhite</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+
+
+
+
+
+</resources>

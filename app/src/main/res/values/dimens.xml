@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Text Sizes-->
+    <dimen name="edittext_font_size">@dimen/_14sdp</dimen>
+    <dimen name="textSize10">@dimen/_10sdp</dimen>
+    <dimen name="textSize12">@dimen/_12sdp</dimen>
+    <dimen name="textSize14">@dimen/_14sdp</dimen>
+    <dimen name="textSize15">@dimen/_15sdp</dimen>
+    <dimen name="textSize16">@dimen/_16sdp</dimen>
+    <dimen name="textSize18">@dimen/_18sdp</dimen>
+    <dimen name="textSize20">@dimen/_20sdp</dimen>
+    <dimen name="textSize22">@dimen/_22sdp</dimen>
+    <dimen name="textSize24">@dimen/_24sdp</dimen>
+    <dimen name="textSize30">@dimen/_30sdp</dimen>
+
+    <!--Common Paddings-->
+    <dimen name="common_padding">@dimen/_10sdp</dimen>
+    <dimen name="common_start_padding">@dimen/_20sdp</dimen>
+    <dimen name="common_end_padding">@dimen/_20sdp</dimen>
+    <dimen name="common_bottom_padding">@dimen/_20sdp</dimen>
+    <dimen name="common_top_padding">@dimen/_20sdp</dimen>
+    <dimen name="common_extra_padding_start">@dimen/_30sdp</dimen>
+    <dimen name="common_extra_padding_end">@dimen/_30sdp</dimen>
+    <dimen name="common_extra_padding_top">@dimen/_30sdp</dimen>
+
+    <!--Icon Sizes-->
+    <dimen name="small_image_height">@dimen/_36sdp</dimen>
+    <dimen name="small_image_width">@dimen/_36sdp</dimen>
+    <dimen name="medium_image_height">@dimen/_50sdp</dimen>
+    <dimen name="medium_image_width">@dimen/_50sdp</dimen>
+    <dimen name="back_arrow_height">@dimen/_30sdp</dimen>
+    <dimen name="back_arrow_width">@dimen/_30sdp</dimen>
+
+    <!--Common Margins-->
+    <dimen name="common_margin">@dimen/_10sdp</dimen>
+    <dimen name="common_start_margin">@dimen/_20sdp</dimen>
+    <dimen name="common_extra_start_margin">@dimen/_30sdp</dimen>
+    <dimen name="common_extra_end_margin">@dimen/_30sdp</dimen>
+    <dimen name="common_end_margin">@dimen/_20sdp</dimen>
+    <dimen name="common_top_margin">@dimen/_20sdp</dimen>
+    <dimen name="common_bottom_margin">@dimen/_20sdp</dimen>
+    <dimen name="common_top_extra_margin">@dimen/_60sdp</dimen>
+    <dimen name="common_bottom_extra_margin">@dimen/_60sdp</dimen>
+
+    <!--TextView Padding-->
+    <dimen name="text_view_padding">@dimen/_10sdp</dimen>
+    <dimen name="text_view_padding_start">@dimen/_10sdp</dimen>
+    <dimen name="text_view_extra_padding_start">@dimen/_16sdp</dimen>
+
+    <!--Button Elevation-->
+    <dimen name="button_elevation">@dimen/_4sdp</dimen>
+
+    <!--User Image Size-->
+    <dimen name="image_width">@dimen/_40sdp</dimen>
+    <dimen name="image_height">@dimen/_40sdp</dimen>
+    <dimen name="user_image_width_medium">@dimen/_56sdp</dimen>
+    <dimen name="user_image_height_medium">@dimen/_56sdp</dimen>
+    <dimen name="profile_image_width">@dimen/_64sdp</dimen>
+    <dimen name="profile_image_height">@dimen/_64sdp</dimen>
+
+
+
+
+
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">To ToPartnetApp  Practice Application</string>
+    <string name="trips">Trips</string>
+    <string name="notifications">Notification</string>
+    <string name="earnings">Earnings</string>
+    <string name="wallet">Wallet</string>
+    <string name="settings">Setting</string>
+    <string name="help">Help</string>
+    <string name="_5_0">5.0</string>
+    <string name="online">online</string>
+</resources>

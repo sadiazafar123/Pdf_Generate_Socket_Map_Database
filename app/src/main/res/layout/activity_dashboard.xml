@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        tools:openDrawer="start">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.activities.DashboardActivity">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivDrawerMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_drawer_menu"
+                    android:clickable="true"
+                    android:elevation="@dimen/_1sdp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clDriverStatus"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/offline_bg"
+                    android:layout_gravity="end|center"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    android:minWidth="@dimen/_90sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvDriverStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/online"
+                        android:gravity="center_horizontal"
+                        android:visibility="gone"
+                        android:textColor="@color/colorWhite"
+                        app:fontFamily="@font/roboto_regular"
+                        app:layout_constraintHorizontal_bias="0.60"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottieAnimView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:lottie_rawRes="@raw/lottie_dots_anim"
+                        app:lottie_autoPlay="true"
+                        app:lottie_speed="2.5"
+                        app:lottie_colorFilter="@color/colorWhite"
+                        app:lottie_loop="true"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+            <!--mapView-->
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <!--linear layout-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_padding"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.80"
+                >
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/image_width"
+                    android:layout_height="@dimen/image_height"
+                    android:visibility="visible"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/common_margin"
+                    android:background="@drawable/ic_profile_placeholder"
+                    />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnDelete"
+                    android:layout_width="@dimen/image_width"
+                    android:layout_height="@dimen/image_height"
+                    android:background="@drawable/ic_map_type"
+                    />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnSpecificDel"
+                    android:layout_width="@dimen/image_width"
+                    android:layout_height="@dimen/image_height"
+                    android:background="@drawable/ic_traffic_light"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/image_width"
+                    android:layout_height="@dimen/image_height"
+                    android:background="@drawable/ic_gps"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:fitsSystemWindows="false">
+
+            <include
+                android:id="@+id/layoutDrawerMenu"
+                layout="@layout/layout_main_drawer" />
+
+
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>
