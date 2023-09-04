@@ -20,6 +20,7 @@ import com.example.totopartnetapppracticeapplication.R
 import com.example.totopartnetapppracticeapplication.databinding.ActivityDashboardBinding
 import com.example.totopartnetapppracticeapplication.model.SaveLatLng
 import com.example.totopartnetapppracticeapplication.services.LocationService
+import com.example.totopartnetapppracticeapplication.socket.SocketIo
 import com.example.totopartnetapppracticeapplication.viewmodel.MyViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -61,6 +62,11 @@ class DashboardActivity : AppCompatActivity(){
                 //setMapLocation(it)
             }
         }
+
+        //socket connection
+        SocketIo.connect()
+        SocketIo.listenLatLng()
+
         //register broadcast receiver
         myBroadcastReceiver= MyBroadcastReceiver()
         val intentFilter2 = IntentFilter(Intent.ACTION_PACKAGE_ADDED)
@@ -74,7 +80,6 @@ class DashboardActivity : AppCompatActivity(){
     }
 
     private fun setMapLocation(googleMap: GoogleMap) {
-
         // This marker will show at my app screen !
         val latLng = LatLng(31.518740230887587, 74.31950130760099)
         googleMap.addMarker(
@@ -110,7 +115,7 @@ class DashboardActivity : AppCompatActivity(){
     private fun initView() {
         checkpermission()
         binding.btnDelete.setOnClickListener {
-            viewModel.deleteAllRecord()
+          //  viewModel.deleteAllRecord()
         }
         binding.btnSpecificDel.setOnClickListener {
             viewModel.deleteSpecificRecord()
@@ -206,6 +211,8 @@ class DashboardActivity : AppCompatActivity(){
                 }
 
             }
+            /////listen socket
+
         }
     }
     fun distance(){
@@ -293,4 +300,37 @@ class DashboardActivity : AppCompatActivity(){
         val distance = locationA.distanceTo(locationB)
         Log.v("calculateDistance"," distance in meter:$distance")
     }
+//    fun socketInit(){
+//        //send to server
+//        socket.emit("save_lat_lng","LatLng")
+//        ///listen data from server
+//        socket.on("save_lat_lng", object : Emitter.Listener{
+//            override fun call(vararg args: Any?) {
+//            }
+//        })
+//        //listen
+//        socket.on("save_lat_lng"){ args->
+//            Log.d("newLatLng","${args[0]}")
+//        }
+//    }
+
+//    fun emitJsonObject(){
+//        val username  =  "sadia"
+//        val password1 =  "12345"
+//        val password2 =  "67890"
+//        val jsonObject = JSONObject()
+//        jsonObject.put("username"  , username)
+//        jsonObject.put("password1" , password1)
+//        jsonObject.put("password2" , password2)
+//        socket.emit("Signup",jsonObject)
+//    }
+//    fun onJsonObject(){
+//        socket.on("Signup"){ args ->
+//            Log.d("Signup","${args[0]}")
+//        }
+//        socket.on(Socket.EVENT_CONNECT){
+//
+//        }
+//    }
+
 }

@@ -15,6 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.totopartnetapppracticeapplication.R
+import com.example.totopartnetapppracticeapplication.model.SaveMyLocation
+import com.example.totopartnetapppracticeapplication.socket.SocketIo
 import com.example.totopartnetapppracticeapplication.ui.DashboardActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationAvailability
@@ -64,10 +66,28 @@ class LocationService : Service() {
                 super.onLocationResult(locationResult)
                 val lastLocation= locationResult.lastLocation
                   lat = lastLocation?.latitude
-                  lng = lastLocation?.longitude 
+                  lng = lastLocation?.longitude
+                ////we are using sir usman,s server url so thats why using param according to that
+                SocketIo.emitLatLng(
+                    SaveMyLocation(0,
+                        lat!!,
+                        lng!!,
+                        null,
+                        1,
+                        null,
+                        null,
+                        null,
+                        1
+                    )
+                )
+                ///////////////////////////////
+               // val locationData = JSONObject()
+                //locationData.put("latitude",lat)
+                //locationData.put("longitude",lng)
+//                val socket = SocketIo.socket
+//                socket.emit("1-point-to-point-tracking", locationData)
 
                 notificationManager.notify(1, prepareForgroundNotification())
-
                 sendBroadcast(Intent().apply {
                     Log.v("location","broadcast")
                     action = "LocationToast"
@@ -123,7 +143,6 @@ class LocationService : Service() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(true)
-
         //mBuilder.setContentIntent(pendingIntent)
         val notification: Notification = mBuilder.build()
 //        notificationManager.notify(1, notification)
@@ -133,6 +152,7 @@ class LocationService : Service() {
     override fun onBind(intent: Intent?)= null
     override fun onDestroy() {
         super.onDestroy()
+       // SocketIo.disconnect()
        // fusedLocationProviderClient.removeLocationUpdates(locationCallbackListener)
        // fusedLocationProviderClient.flushLocations()
     }
