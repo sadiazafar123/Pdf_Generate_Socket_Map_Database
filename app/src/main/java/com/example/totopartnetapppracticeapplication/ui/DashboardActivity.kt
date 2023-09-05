@@ -16,6 +16,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.room.util.query
 import com.example.totopartnetapppracticeapplication.R
 import com.example.totopartnetapppracticeapplication.databinding.ActivityDashboardBinding
 import com.example.totopartnetapppracticeapplication.model.SaveLatLng
@@ -27,6 +28,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.Filter.and
+import com.google.firebase.firestore.Filter.arrayContains
+import com.google.firebase.firestore.Filter.equalTo
+import com.google.firebase.firestore.Filter.or
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,6 +42,7 @@ import java.time.format.DateTimeFormatter
 
 
 class DashboardActivity : AppCompatActivity(){
+    private lateinit var firebaseFirestore:FirebaseFirestore
 
     private val viewModel: MyViewModel by viewModel()
 
@@ -62,6 +70,8 @@ class DashboardActivity : AppCompatActivity(){
                 //setMapLocation(it)
             }
         }
+        //get instance
+        firebaseFirestore= FirebaseFirestore.getInstance()
 
         //socket connection
         SocketIo.connect()
@@ -199,7 +209,118 @@ class DashboardActivity : AppCompatActivity(){
                         mMap.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(LatLng(lat2?:0.0,lng2?:0.0), 15f)
                         )
+                        ///data insert in db
                         viewModel.insertLatLng(lat2,lng2,formattedTime, distance!!)
+                        //insert in firestore
+//                        val addLatLng = HashMap<String,Any>()
+//                        addLatLng["latitude"] = lat2!!
+//                        addLatLng["longitude"]= lng2!!
+////
+//                        firebaseFirestore.collection("Location")
+//                            .add(addLatLng).addOnSuccessListener {
+//                                Log.d("firestore","data insert succesfully")
+//                            }
+//                            .addOnFailureListener{ e->
+//                                Log.d("firestore","Error writing document")
+//                            }
+                        /////
+                        val addLatLng1 = HashMap<String,Any>()
+                       addLatLng1["latitude"] = "31.49786"
+                        addLatLng1["longitude"]= "74.30609"
+                        val addLatLng2 = HashMap<String,Any>()
+                        addLatLng2["latitude"] = "31.49687"
+                        addLatLng2["longitude"]= "74.30497"
+                        val addLatLng3 = HashMap<String,Any>()
+                        addLatLng3["latitude"] = "31.49565"
+                        addLatLng3["longitude"]= "74.30388"
+                        val addLatLng4 = HashMap<String,Any>()
+                        addLatLng4["latitude"] = "31.4947"
+                        addLatLng4["longitude"]= "74.30296"
+                        val addLatLng5 = HashMap<String,Any>()
+                        addLatLng5["latitude"] = "31.49382"
+                        addLatLng5["longitude"]= "74.30201"
+                        val addLatLng6 = HashMap<String,Any>()
+                        addLatLng6["latitude"] = "31.49307"
+                        addLatLng6["longitude"]= "74.30128"
+// hashMapOf
+//                        val data1 = hashMapOf(
+//                            "name" to "San Francisco",
+//                            "state" to "CA",
+//                            "country" to "USA",
+//                            "capital" to false,
+//                            "population" to 860000,
+//                            "regions" to listOf("west_coast", "norcal"),
+//                        )
+
+                        firebaseFirestore.collection("Location").document("id:1").set(addLatLng1)
+                        firebaseFirestore.collection("Location").document("id:2").set(addLatLng2)
+                        firebaseFirestore.collection("Location").document("id:3").set(addLatLng3)
+                        firebaseFirestore.collection("Location").document("id:4").set(addLatLng4)
+                        firebaseFirestore.collection("Location").document("id:5").set(addLatLng5)
+                        firebaseFirestore.collection("Location").document("id:6").set(addLatLng6)
+                        ///applying where queries
+//                        val latLngRef=firebaseFirestore.collection("Location")
+//                        val query= latLngRef.whereEqualTo("latitude","31.49307")
+//                        Log.d("query", "$query")
+
+
+
+                        firebaseFirestore.collection("Location")
+                            .whereEqualTo("latitude", "31.49382")
+                            .get()
+                            .addOnSuccessListener { documents ->
+                                for (document in documents) {
+                                    val data = document.data
+                                    val latitude = data["latitude"] as String
+                                    val longitude = data["longitude"] as String
+                                     Log.d("query", "data is: $data")
+                                    // Log.d("query", "longitude is: $latitude")
+                                     //Log.d("query", "longitude is: $longitude")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.w("query", "Error getting documents: ", exception)
+                            }
+                        ///to get specific data applying OR query
+                       firebaseFirestore.collection("Location")
+                            .where(or(equalTo("latitude","31.49307"), equalTo("longitude","74.30201")))
+                            .get()
+                           .addOnSuccessListener {documents->
+                           for (document in documents ){
+                               val data= document.data
+                               Log.d("query", "and query: $data")
+                           }
+
+                           }.addOnFailureListener{exception->
+                               Log.d("query", "and query: $exception")
+                           }
+                        ///applying AND query if firestore
+                        firebaseFirestore.collection("Location")
+                            .where(and(equalTo("latitude","31.49307"), equalTo("longitude","74.30201")))
+                            .get()
+                            .addOnSuccessListener {documents->
+                                for (document in documents ){
+                                    val data= document.data
+                                    Log.d("query", "and query: $data")
+                                }
+
+                            }.addOnFailureListener{exception->
+                                Log.d("query", "and query: $exception")
+                            }
+
+
+
+
+//                        firebaseFirestore.collection("Location")
+//                            .document("id")
+//                            .set(addLatLng)
+//                            .addOnSuccessListener {
+//                                Log.d("firestore","data insert succesfully")
+//                            }
+//                            .addOnFailureListener{ e->
+//                                Log.d("firestore","Error writing document")
+//
+//                            }
                     }
                 }
                 if (intent?.action == Intent.ACTION_PACKAGE_ADDED){

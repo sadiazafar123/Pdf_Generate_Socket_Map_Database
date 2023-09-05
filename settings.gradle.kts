@@ -13,6 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
+
 rootProject.name = "To ToPartnetApp  Practice Application"
 include(":app")
  
