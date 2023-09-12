@@ -16,7 +16,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.room.util.query
 import com.example.totopartnetapppracticeapplication.R
 import com.example.totopartnetapppracticeapplication.databinding.ActivityDashboardBinding
 import com.example.totopartnetapppracticeapplication.model.SaveLatLng
@@ -29,11 +28,9 @@ import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.Filter.and
-import com.google.firebase.firestore.Filter.arrayContains
 import com.google.firebase.firestore.Filter.equalTo
 import com.google.firebase.firestore.Filter.or
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,8 +39,7 @@ import java.time.format.DateTimeFormatter
 
 
 class DashboardActivity : AppCompatActivity(){
-    private lateinit var firebaseFirestore:FirebaseFirestore
-
+    private lateinit var firebaseFirestore: FirebaseFirestore
     private val viewModel: MyViewModel by viewModel()
 
     var permissionCode = 101
@@ -72,7 +68,6 @@ class DashboardActivity : AppCompatActivity(){
         }
         //get instance
         firebaseFirestore= FirebaseFirestore.getInstance()
-
         //socket connection
         SocketIo.connect()
         SocketIo.listenLatLng()
@@ -209,7 +204,7 @@ class DashboardActivity : AppCompatActivity(){
                         mMap.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(LatLng(lat2?:0.0,lng2?:0.0), 15f)
                         )
-                        ///data insert in db
+                        ///data insert in  room db
                         viewModel.insertLatLng(lat2,lng2,formattedTime, distance!!)
                         //insert in firestore
 //                        val addLatLng = HashMap<String,Any>()

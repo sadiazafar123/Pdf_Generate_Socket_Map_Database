@@ -5,9 +5,7 @@ plugins {
     id ("kotlin-parcelize")
     id("com.google.gms.google-services")
 
-
 }
-
 android {
     namespace = "com.example.totopartnetapppracticeapplication"
     compileSdk = 33
@@ -15,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.example.totopartnetapppracticeapplication"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 32
         versionCode = 1
         versionName = "1.0"
 
@@ -42,11 +40,15 @@ android {
         dataBinding = true
     }
 
+
+
+
 }
+
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -103,6 +105,10 @@ dependencies {
 //        exclude group: 'org.json', module: 'json'
 //    }
      implementation ("io.socket:socket.io-client:1.0.0")
+
+//    implementation("io.realm:realm-gradle-plugin:10.11.1")
+
+
 
 }
 //kapt {

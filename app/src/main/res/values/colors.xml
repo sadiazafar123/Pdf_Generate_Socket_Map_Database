@@ -8,6 +8,7 @@
     <color name="colorPrimaryDark">#FBCE2B</color>
     <color name="colorAccent">#FBCE2B</color>
     <color name="colorStatusBar">#C9EFFF</color>
+    <color name="green">#FF349F38</color>
 
     <!--Custom Colors-->
     <color name="colorEditTextFieldHint">#FFFFFF</color>
@@ -20,7 +21,7 @@
     <color name="colorDevyGray">#52565B</color>
     <color name="colorNotificationRed">#FF0000</color>
     <color name="colorLineSeparator">#707070</color>
-    <color name="colorMintGreen">#30BF91</color>
+    <color name="colorMintGreen">#349F38</color>
     <color name="colorWaterBlue">#DCEFFF</color>
     <color name="colorLightAzure">#6ABCFF</color>
     <color name="colorYellowDark">#F39200</color>
