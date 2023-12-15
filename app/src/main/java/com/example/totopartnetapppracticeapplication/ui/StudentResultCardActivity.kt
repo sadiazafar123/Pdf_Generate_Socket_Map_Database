@@ -313,10 +313,7 @@ class StudentResultCardActivity : AppCompatActivity() {
                 Status.ERROR ->{
                     Globals.hideProgressDialog()
                     Log.d("response",": errror branch ${apiResponse.message}")
-
                     Toast.makeText(this@StudentResultCardActivity, "${apiResponse.message}", Toast.LENGTH_SHORT).show()
-
-
 
                 }
             }
